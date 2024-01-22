@@ -32,7 +32,7 @@ public class ProductManagement extends JFrame {
         tableModel = new DefaultTableModel();
 
         setTitle("Product Management");
-        setSize(800, 600);
+        setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         tableModel.addColumn("Sr No");

@@ -78,7 +78,9 @@ public class UserMainFrame extends JFrame {
             } else {
                 print = "Not Available";
             }
-            tableModel.addRow(new Object[]{p.getProductId(), p.getProductName(), p.getProductPrice(), p.getProductStock(), print});
+            tableModel.addRow(new Object[]{
+                    p.getProductId(), p.getProductName(), p.getProductPrice(), p.getProductStock(), print
+            });
 
         }
     }

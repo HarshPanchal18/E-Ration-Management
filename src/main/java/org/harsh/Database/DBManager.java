@@ -2,7 +2,6 @@ package org.harsh.Database;
 
 import org.harsh.Model.Product;
 import org.harsh.Model.User;
-import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,15 +10,13 @@ import java.util.List;
 public class DBManager {
 
     private Connection connection;
-    private PreparedStatement preparedStatement;
     private static final String DB_URL = "jdbc:mysql://localhost:3306/e_ration";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_USER = "root", DB_PASSWORD = "";
 
     private static final String USER_TABLE = "USERS";
-    private static final String SELECT_ALL_FROM_USER = "SELECT * FROM" + USER_TABLE;
+    private static final String SELECT_ALL_FROM_USER = "SELECT * FROM " + USER_TABLE;
     private static final String PRODUCT_TABLE = "PRODUCTS";
-    private static final String SELECT_ALL_FROM_PRODUCTS = "SELECT * FROM" + PRODUCT_TABLE;
+    private static final String SELECT_ALL_FROM_PRODUCTS = "SELECT * FROM " + PRODUCT_TABLE;
 
     public DBManager() {
         try {
@@ -32,10 +29,11 @@ public class DBManager {
     public User getUserByUsername(String email) {
         String selectUserQuery = SELECT_ALL_FROM_USER + " WHERE email=?";
         try {
-            preparedStatement = connection.prepareStatement(selectUserQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement(selectUserQuery);
+            preparedStatement.setString(1,email);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                int userID = resultSet.getInt("userId");
+                int userID = resultSet.getInt("user_id");
                 String role = resultSet.getString("role");
                 resultSet.close();
                 return new User(userID, email, role);
@@ -50,12 +48,11 @@ public class DBManager {
         String selectQuery = SELECT_ALL_FROM_USER + " WHERE email = ? AND password = ?";
 
         try {
-            preparedStatement = connection.prepareStatement(selectQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            preparedStatement.close();
             return resultSet.next();
 
         } catch (SQLException e) {
@@ -65,10 +62,10 @@ public class DBManager {
     }
 
     public boolean registerUser(String name, String password, String userType, int age, String email, String sex, String state, String city, String dob, String ration_no, String card_type, String country) {
-        String insertUserQuery = "INSERT INTO " + USER_TABLE + " (Name, age, email , password , sex , state , city , country , dob , ration_no , card_type , role) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)";
+        String insertUserQuery = "INSERT INTO " + USER_TABLE + " (name, age, email , password , sex , state , city , country , dob , ration_no , card_type , role) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)";
 
         try {
-            preparedStatement = connection.prepareStatement(insertUserQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement(insertUserQuery);
             preparedStatement.setString(1, name);
             preparedStatement.setInt(2, age);
             preparedStatement.setString(3, email);
@@ -91,11 +88,11 @@ public class DBManager {
         }
     }
 
-    public boolean deleteUser(@NotNull User user) {
+    public boolean deleteUser(User user) {
         String deleteQuery = "DELETE FROM " + USER_TABLE + " WHERE userId = ?";
 
         try {
-            preparedStatement = connection.prepareStatement(deleteQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
             preparedStatement.setInt(1, user.getUserId());
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -112,7 +109,7 @@ public class DBManager {
     public boolean updateUser(User user) {
         String updateQuery = "UPDATE " + USER_TABLE + "SET name = ?,age=?,email=?,password=?,sex=?,state=?,city=?,country=?,dob=?,ration_no=?,card_type = ?,role=? WHERE user_id=?";
         try {
-            preparedStatement = connection.prepareStatement(updateQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setInt(2, user.getAge());
             preparedStatement.setString(3, user.getEmail());
@@ -192,7 +189,7 @@ public class DBManager {
     public int addProduct(Product product) {
         String insertTaskQuery = "INSERT INTO " + PRODUCT_TABLE + " (product_name, product_price, product_quantity) VALUES (?, ?, ?)";
         try {
-            preparedStatement = connection.prepareStatement(insertTaskQuery, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(insertTaskQuery, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, product.getProductName());
             preparedStatement.setDouble(2, product.getProductPrice());
             preparedStatement.setInt(3, product.getProductStock());
@@ -235,7 +232,7 @@ public class DBManager {
         String deleteTaskQuery = "DELETE FROM " + PRODUCT_TABLE + " WHERE product_id = ?";
 
         try {
-            preparedStatement = connection.prepareStatement(deleteTaskQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteTaskQuery);
             preparedStatement.setInt(1, product.getProductId());
 
             int rowsAffected = preparedStatement.executeUpdate();

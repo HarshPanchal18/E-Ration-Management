@@ -48,9 +48,7 @@ public class ERation extends JFrame {
     }
 
     private void openLoginFrame() {
-        SwingUtilities.invokeLater(() -> {
-            new LoginFrame();
-        });
+        SwingUtilities.invokeLater(LoginFrame::new);
     }
 
     public static void main(String[] args) {

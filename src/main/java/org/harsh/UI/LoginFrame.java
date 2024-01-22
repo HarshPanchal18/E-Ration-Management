@@ -6,6 +6,8 @@ import org.harsh.Model.User;
 import javax.swing.*;
 import java.awt.*;
 
+import static javax.swing.SwingUtilities.invokeLater;
+
 public class LoginFrame extends JFrame {
 
     private JTextField EmailField;
@@ -47,20 +49,20 @@ public class LoginFrame extends JFrame {
         String email = EmailField.getText();
         char[] passwordChars = passwordField.getPassword();
         String password = new String(passwordChars);
+
         if (db.loginUser(email, password)) {
             User user = db.getUserByUsername(email);
 
-            SwingUtilities.invokeLater(() -> {
+            invokeLater(() -> {
                 if ("Seller".equals(user.getRole())) {
                     AdminFrame mainFrame = new AdminFrame(user);
                     mainFrame.setVisible(true);
-                }
-                else{
+                } else {
                     UserMainFrame userFrame = new UserMainFrame();
                     userFrame.setVisible(true);
                 }
                 this.setVisible(false);
-                JOptionPane.showMessageDialog(this, "Login Succesfull.");
+                JOptionPane.showMessageDialog(this, "Login Successful.");
             });
 
         } else {
@@ -70,6 +72,6 @@ public class LoginFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(LoginFrame::new);
+        invokeLater(LoginFrame::new);
     }
 }
