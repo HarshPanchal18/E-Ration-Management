@@ -1,6 +1,7 @@
 package org.harsh.UI;
 
 import org.harsh.Database.DBManager;
+import org.harsh.Model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -115,7 +116,8 @@ public class RegistrationFrame extends JFrame {
         String userType = (String) userTypeComboBox.getSelectedItem();
 
         if (isValidPassword(password)) {
-            if (databaseManager.registerUser(name, password, userType, age, email, sex, state1, city1, dob1, rNo, card, country1)) {
+            User user = new User(name, password, userType, age, email, sex, state1, city1, dob1, rNo, card, country1) ;
+            if (databaseManager.registerUser(user)) {
                 JOptionPane.showMessageDialog(this, "Registration successful. You can now log in.");
                 this.dispose();
             } else {

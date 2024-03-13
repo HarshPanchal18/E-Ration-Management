@@ -7,8 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,12 +19,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class UserMainFrame extends JFrame {
-    private DefaultTableModel tableModel;
-    private JTable taskTable;
+    private final DefaultTableModel tableModel;
+    private final JTable taskTable;
     DBManager db = new DBManager();
-    private UserMainFrame userFrame = this;
-    private JTextField buy_quantity;
-    private JButton BuyButton;
+    private final JTextField buyQuantityTextField;
     String print;
 
     public UserMainFrame() {
@@ -45,14 +41,14 @@ public class UserMainFrame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(taskTable);
         scrollPane.setPreferredSize(new Dimension(700, 200));
 
-        buy_quantity = new JTextField(20);
-        BuyButton = new JButton("Buy Now");
+        buyQuantityTextField = new JTextField(20);
+        JButton buyButton = new JButton("Buy Now");
 
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new GridLayout(3, 1));
         inputPanel.add(new JLabel("Quantity you want to Buy in KGs :"));
-        inputPanel.add(buy_quantity);
-        inputPanel.add(BuyButton);
+        inputPanel.add(buyQuantityTextField);
+        inputPanel.add(buyButton);
 
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
@@ -61,7 +57,7 @@ public class UserMainFrame extends JFrame {
 
         loadTasks();
 
-        BuyButton.addActionListener(e -> BuyProducts());
+        buyButton.addActionListener(e -> BuyProducts());
     }
 
     public void loadTasks() {
@@ -93,15 +89,16 @@ public class UserMainFrame extends JFrame {
             return;
         }
 
-        int id = (int) tableModel.getValueAt(selectedRow, 0);
+        //int id = (int) tableModel.getValueAt(selectedRow, 0);
         String name = (String) tableModel.getValueAt(selectedRow, 1);
         String avail = (String) tableModel.getValueAt(selectedRow, 4);
         double price = (double) tableModel.getValueAt(selectedRow, 2);
-        int value = Integer.parseInt(buy_quantity.getText());
+        int value = Integer.parseInt(buyQuantityTextField.getText());
         double total = value * price;
-        if ("Not Available".equals(avail)) {
+
+        if ("Not Available".equals(avail))
             JOptionPane.showMessageDialog(this, "Item out of stock");
-        } else
+        else
             JOptionPane.showMessageDialog(this, "You Bought " + name + " and the quantity you ordered is " + value + "kg and the total cost is " + total);
     }
 

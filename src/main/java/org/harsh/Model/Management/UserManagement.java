@@ -12,20 +12,26 @@ import java.util.regex.Pattern;
 public class UserManagement extends JFrame {
 
     DBManager db = new DBManager();
-    private UserManagement userManagement = this;
-    private DefaultTableModel tableModel;
-    private JTable taskTable;
-    private JTextField userName, userEmail, userAge, userCity, userState, userCountry, userDob, userRationNo;
-    private JPasswordField userPassword;
-    private JComboBox<String> sexTypeCbox, userTypeCbox, cardTypeCbox;
-    private JButton addBtn, updateBtn, deleteBtn, backBtn;
+    private final UserManagement userManagement = this;
+    private final DefaultTableModel tableModel;
+    private final JTable taskTable;
+    private final JTextField userName;
+    private final JTextField userEmail;
+    private final JTextField userAge;
+    private final JTextField userCity;
+    private final JTextField userState;
+    private final JTextField userCountry;
+    private final JTextField userDob;
+    private final JTextField userRationNo;
+    private final JPasswordField userPassword;
+    private final JComboBox<String> sexTypeCbox;
+    private final JComboBox<String> userTypeCbox;
+    private final JComboBox<String> cardTypeCbox;
 
     public UserManagement() {
         setTitle("User management");
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JScrollPane scrollPane;
 
         JLabel nameLabel = new JLabel("Name:");
         JLabel ageLabel = new JLabel("Age:");
@@ -50,14 +56,15 @@ public class UserManagement extends JFrame {
         userRationNo = new JTextField(20);
         userPassword = new JPasswordField(20);
         userEmail = new JTextField(20);
+
         String[] userTypes = {"Seller", "Buyer"};
         String[] sexType = {"Male", "Female"};
         String[] CardTypes = {"APL", "BPL"};
+
         userTypeCbox = new JComboBox<>(userTypes);
         sexTypeCbox = new JComboBox<>(sexType);
         cardTypeCbox = new JComboBox<>(CardTypes);
 
-        JPanel panel = new JPanel(new GridLayout(20, 2, 2, 5));
         tableModel = new DefaultTableModel();
         tableModel.addColumn("ID");
         tableModel.addColumn("Name");
@@ -72,15 +79,19 @@ public class UserManagement extends JFrame {
         tableModel.addColumn("Ration No");
         tableModel.addColumn("Card Type");
         tableModel.addColumn("User Role");
+
         taskTable = new JTable(tableModel);
+
+        JScrollPane scrollPane;
         scrollPane = new JScrollPane(taskTable);
         scrollPane.setPreferredSize(new Dimension(700, 200));
 
-        addBtn = new JButton("Add User");
-        updateBtn = new JButton("Update User");
-        deleteBtn = new JButton("Delete User");
-        backBtn = new JButton("Go Back");
+        JButton addBtn = new JButton("Add User");
+        JButton updateBtn = new JButton("Update User");
+        JButton deleteBtn = new JButton("Delete User");
+        JButton backBtn = new JButton("Go Back");
 
+        JPanel panel = new JPanel(new GridLayout(20, 2, 2, 5));
         panel.add(nameLabel);
         panel.add(userName);
 
@@ -163,8 +174,8 @@ public class UserManagement extends JFrame {
         String sex = (String) sexTypeCbox.getSelectedItem();
         String card = (String) cardTypeCbox.getSelectedItem();
         String userType = (String) userTypeCbox.getSelectedItem();
-
         int ageC;
+
         try {
             ageC = Integer.parseInt(age);
         } catch (NumberFormatException e) {
@@ -173,7 +184,8 @@ public class UserManagement extends JFrame {
         }
 
         if (isValidPassword(password)) {
-            if (db.registerUser(name, password, userType, ageC, email, sex, state, city, dob, rationNo, card, country)) {
+            User user = new User(name, password, userType, ageC, email, sex, state, city, dob, rationNo, card, country);
+            if (db.registerUser(user)) {
                 JOptionPane.showMessageDialog(this, "Registration successful. You can now log in.");
                 this.dispose();
             } else {
@@ -211,8 +223,8 @@ public class UserManagement extends JFrame {
         String country = userCountry.getText();
         String dob = userDob.getText();
         String rNo = userRationNo.getText();
-
         int ageC;
+
         try {
             ageC = Integer.parseInt(age);
         } catch (NumberFormatException e) {

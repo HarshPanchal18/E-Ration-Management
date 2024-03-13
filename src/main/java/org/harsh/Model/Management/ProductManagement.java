@@ -24,8 +24,7 @@ public class ProductManagement extends JFrame {
     private final DefaultTableModel tableModel;
     private final JTable taskTable;
     DBManager db = new DBManager();
-    private final JTextField pr_name, pr_price, pr_quantity;
-    private final JButton addBtn, updateBtn, deleteBtn, backBtn;
+    private final JTextField prodNameField, prodPriceField, prodQuantityField;
     private final ProductManagement product = this;
 
     public ProductManagement() {
@@ -44,23 +43,23 @@ public class ProductManagement extends JFrame {
         JScrollPane scrollPane = new JScrollPane(taskTable);
         scrollPane.setPreferredSize(new Dimension(700, 200));
 
-        pr_name = new JTextField(20);
-        pr_price = new JTextField(20);
-        pr_quantity = new JTextField(20);
+        prodNameField = new JTextField(20);
+        prodPriceField = new JTextField(20);
+        prodQuantityField = new JTextField(20);
 
-        addBtn = new JButton("Add Product");
-        updateBtn = new JButton("Update Product");
-        deleteBtn = new JButton("Delete Product");
-        backBtn = new JButton("Go Back");
+        JButton addBtn = new JButton("Add Product");
+        JButton updateBtn = new JButton("Update Product");
+        JButton deleteBtn = new JButton("Delete Product");
+        JButton backBtn = new JButton("Go Back");
 
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new GridLayout(5, 2));
         inputPanel.add(new JLabel("Name:"));
-        inputPanel.add(pr_name);
+        inputPanel.add(prodNameField);
         inputPanel.add(new JLabel("Price:"));
-        inputPanel.add(pr_price);
+        inputPanel.add(prodPriceField);
         inputPanel.add(new JLabel("Quantity:"));
-        inputPanel.add(pr_quantity);
+        inputPanel.add(prodQuantityField);
         inputPanel.add(addBtn);
         inputPanel.add(updateBtn);
         inputPanel.add(deleteBtn);
@@ -92,19 +91,19 @@ public class ProductManagement extends JFrame {
     }
 
     private void addTask() {
-        String name = pr_name.getText();
-        int price = Integer.parseInt(pr_price.getText());
-        int quantity = Integer.parseInt(pr_quantity.getText());
+        String name = prodNameField.getText();
+        int price = Integer.parseInt(prodPriceField.getText());
+        int quantity = Integer.parseInt(prodQuantityField.getText());
 
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Name is required.");
             return;
         }
-        if (pr_price.getText().isEmpty()) {
+        if (prodPriceField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Name is required.");
             return;
         }
-        if (pr_quantity.getText().isEmpty()) {
+        if (prodQuantityField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Name is required.");
             return;
         }
@@ -124,9 +123,9 @@ public class ProductManagement extends JFrame {
     }
 
     private void clearInputFields() {
-        pr_name.setText("");
-        pr_price.setText("");
-        pr_quantity.setText("");
+        prodNameField.setText("");
+        prodPriceField.setText("");
+        prodQuantityField.setText("");
     }
 
     private void updateTask() {
@@ -138,9 +137,9 @@ public class ProductManagement extends JFrame {
         }
 
         int id = (int) tableModel.getValueAt(selectedRow, 0);
-        String name = pr_name.getText();
-        double price = Double.parseDouble(pr_price.getText());
-        int quantity = Integer.parseInt(pr_quantity.getText());
+        String name = prodNameField.getText();
+        double price = Double.parseDouble(prodPriceField.getText());
+        int quantity = Integer.parseInt(prodQuantityField.getText());
 
         Product updatedProduct = new Product(id, name, price, quantity);
 

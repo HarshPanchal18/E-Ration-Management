@@ -30,7 +30,7 @@ public class DBManager {
         String selectUserQuery = SELECT_ALL_FROM_USER + " WHERE email=?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(selectUserQuery);
-            preparedStatement.setString(1,email);
+            preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int userID = resultSet.getInt("user_id");
@@ -61,23 +61,23 @@ public class DBManager {
         }
     }
 
-    public boolean registerUser(String name, String password, String userType, int age, String email, String sex, String state, String city, String dob, String ration_no, String card_type, String country) {
+    public boolean registerUser(User user) {
         String insertUserQuery = "INSERT INTO " + USER_TABLE + " (name, age, email , password , sex , state , city , country , dob , ration_no , card_type , role) VALUES (?, ?, ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(insertUserQuery);
-            preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, age);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, password);
-            preparedStatement.setString(5, sex);
-            preparedStatement.setString(6, state);
-            preparedStatement.setString(7, city);
-            preparedStatement.setString(8, country);
-            preparedStatement.setString(9, dob);
-            preparedStatement.setString(10, ration_no);
-            preparedStatement.setString(11, card_type);
-            preparedStatement.setString(12, userType);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getAge());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getSex());
+            preparedStatement.setString(6, user.getState());
+            preparedStatement.setString(7, user.getCity());
+            preparedStatement.setString(8, user.getCountry());
+            preparedStatement.setString(9, user.getDob());
+            preparedStatement.setString(10, user.getRationNo());
+            preparedStatement.setString(11, user.getCardType());
+            preparedStatement.setString(12, user.getRole());
 
             int rowsAffected = preparedStatement.executeUpdate();
 

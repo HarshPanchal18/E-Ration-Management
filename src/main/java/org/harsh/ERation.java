@@ -14,8 +14,8 @@ public class ERation extends JFrame {
     private void initializeUI() {
         JLabel nameLabel = new JLabel("                  E-Ration                   ");
 
-        Font f = new Font("Arial",Font.BOLD , 30);
-        nameLabel.setFont(f);
+        Font arialBoldFont = new Font("Arial", Font.BOLD, 30);
+        nameLabel.setFont(arialBoldFont);
 
         JButton registerButton = new JButton("Register");
         JButton loginButton = new JButton("Login");
@@ -41,6 +41,7 @@ public class ERation extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
+
     }
 
     private void openRegisterFrame() {
